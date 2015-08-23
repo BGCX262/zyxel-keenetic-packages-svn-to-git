@@ -1,0 +1,6 @@
+
+if PACKAGE_busybox-storage
+
+source "package/busybox/sconfig/Config.in"
+
+endif

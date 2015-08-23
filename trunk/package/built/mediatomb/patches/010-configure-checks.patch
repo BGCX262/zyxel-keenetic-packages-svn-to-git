@@ -1,0 +1,149 @@
+--- a/configure	2010-04-08 02:40:17.000000000 +0400
++++ b/configure	2013-04-15 13:43:02.000000000 +0400
+@@ -24093,7 +24093,7 @@
+ else
+ 
+                             LDFLAGS="-L$SEARCH_DIR_LIBS $LDFLAGS_SAVE $ADD_PTHREAD_CFLAGS"
+-                            unset ac_cv_lib_js_JS_NewObject
++                            ac_cv_lib_js_JS_NewObject=yes
+                             { $as_echo "$as_me:$LINENO: checking for JS_NewObject in -ljs" >&5
+ $as_echo_n "checking for JS_NewObject in -ljs... " >&6; }
+ if test "${ac_cv_lib_js_JS_NewObject+set}" = set; then
+@@ -30804,7 +30804,7 @@
+    { (exit 1); exit 1; }; }
+ fi
+ 
+-if ((test "x$YOUTUBE_OPTION_ENABLED" != xyes) && (test "x$SOPCAST_OPTION_ENABLED" != xyes) && (test "x$EXTERNAL_TRANSCODING_OPTION" != xyes) && (test "x$ATRAILERS_OPTION_ENABLED" != xyes) && (test "x$WEBORAMA_OPTION_ENABLED" != xyes)); then
++if ((test "x$YOUTUBE_OPTION_ENABLED" != xyes) && (test "x$SOPCAST_OPTION_ENABLED" != xyes) && (test "x$EXTERNAL_TRANSCODING_OPTION_ENABLED" != xyes) && (test "x$ATRAILERS_OPTION_ENABLED" != xyes) && (test "x$WEBORAMA_OPTION_ENABLED" != xyes)); then
+     if test $USE_CURL -eq 1; then
+         if test $CURL_REQUESTED -eq 1; then
+             { { $as_echo "$as_me:$LINENO: error: You enabled curl support but the external transcoding, YouTube and SopCast features are disabled - curl is not needed without it" >&5
+@@ -30817,7 +30817,7 @@
+     fi
+ fi
+ 
+-if (((test "x$YOUTUBE_OPTION_ENABLED" = xyes) || (test "x$SOPCAST_OPTION_ENABLED" = xyes) || (test "x$ATRAILERS_OPTION_ENABLED" = xyes) || (test "x$WEBORAMA_OPTION_ENABLED" = xyes) || (test "x$EXTERNAL_TRANSCODING_OPTION" = xyes)) && (test $USE_CURL -eq 1)); then
++if (((test "x$YOUTUBE_OPTION_ENABLED" = xyes) || (test "x$SOPCAST_OPTION_ENABLED" = xyes) || (test "x$ATRAILERS_OPTION_ENABLED" = xyes) || (test "x$WEBORAMA_OPTION_ENABLED" = xyes) || (test "x$EXTERNAL_TRANSCODING_OPTION_ENABLED" = xyes)) && (test $USE_CURL -eq 1)); then
+     { $as_echo "$as_me:$LINENO: Checking for curl (needed for extended external transcoding/YouTube support)" >&5
+ $as_echo "$as_me: Checking for curl (needed for extended external transcoding/YouTube support)" >&6;}
+     CURL_OK=yes
+@@ -31124,7 +31124,7 @@
+   $as_echo_n "(cached) " >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lcurl  $LIBS"
++LIBS="-lcurl  -lssl -lcrypto $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+ _ACEOF
+@@ -31188,7 +31188,7 @@
+ #define HAVE_LIBCURL 1
+ _ACEOF
+ 
+-  LIBS="-lcurl $LIBS"
++  LIBS="-lcurl -lssl -lcrypto $LIBS"
+ 
+ else
+   CURL_OK=missing
+@@ -31254,7 +31254,7 @@
+         SOPCAST_OPTION_ENABLED="missing"
+     fi
+ 
+-    if test "x$EXTERNAL_TRANSCODING_OPTION" = xyes; then
++    if test "x$EXTERNAL_TRANSCODING_OPTION_ENABLED" = xyes; then
+         if ((test $USE_CURL -eq 1) && (test $CURL_REQUESTED -eq 0)); then
+             { $as_echo "$as_me:$LINENO: WARNING: unable to configure curl, external transcoding will have limited functionality!" >&5
+ $as_echo "$as_me: WARNING: unable to configure curl, external transcoding will have limited functionality!" >&2;}
+@@ -31267,7 +31267,7 @@
+         fi
+     fi
+ 
+-    if (test "x$YOUTUBE_OPTION_ENABLED" != xyes) && (test "x$WEBORAMA_OPTION_ENABLED" != xyes) && (test "x$ATRAILERS_OPTION_ENABLED" != xyes) && (test "x$EXTERNAL_TRANSCODING_OPTION" = !xyes) && (test "x$SOPCAST_OPTION_ENABLED" != xyes); then
++    if (test "x$YOUTUBE_OPTION_ENABLED" != xyes) && (test "x$WEBORAMA_OPTION_ENABLED" != xyes) && (test "x$ATRAILERS_OPTION_ENABLED" != xyes) && (test "x$EXTERNAL_TRANSCODING_OPTION_ENABLED" = !xyes) && (test "x$SOPCAST_OPTION_ENABLED" != xyes); then
+         CURL_CFLAGS=
+         CURL_LIBS=
+     fi
+@@ -31425,7 +31425,7 @@
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+ $ac_includes_default
+-#include <$mt_avformat_search_headers/ffmpeg/avformat.h>
++#include <$mt_avformat_search_headers/libavformat/avformat.h>
+ _ACEOF
+ rm -f conftest.$ac_objext
+ if { (ac_try="$ac_compile"
+@@ -31466,7 +31466,7 @@
+ cat confdefs.h >>conftest.$ac_ext
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+-#include <$mt_avformat_search_headers/ffmpeg/avformat.h>
++#include <$mt_avformat_search_headers/libavformat/avformat.h>
+ _ACEOF
+ if { (ac_try="$ac_cpp conftest.$ac_ext"
+ case "(($ac_try" in
+@@ -31583,7 +31583,7 @@
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+ $ac_includes_default
+-#include <ffmpeg/avformat.h>
++#include <libavformat/avformat.h>
+ _ACEOF
+ rm -f conftest.$ac_objext
+ if { (ac_try="$ac_compile"
+@@ -31624,7 +31624,7 @@
+ cat confdefs.h >>conftest.$ac_ext
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+-#include <ffmpeg/avformat.h>
++#include <libavformat/avformat.h>
+ _ACEOF
+ if { (ac_try="$ac_cpp conftest.$ac_ext"
+ case "(($ac_try" in
+@@ -31726,7 +31726,7 @@
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+ $ac_includes_default
+-#include <$MT_SEARCHPATH_HEADERS/ffmpeg/avformat.h>
++#include <$MT_SEARCHPATH_HEADERS/libavformat/avformat.h>
+ _ACEOF
+ rm -f conftest.$ac_objext
+ if { (ac_try="$ac_compile"
+@@ -31767,7 +31767,7 @@
+ cat confdefs.h >>conftest.$ac_ext
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+-#include <$MT_SEARCHPATH_HEADERS/ffmpeg/avformat.h>
++#include <$MT_SEARCHPATH_HEADERS/libavformat/avformat.h>
+ _ACEOF
+ if { (ac_try="$ac_cpp conftest.$ac_ext"
+ case "(($ac_try" in
+@@ -33423,7 +33423,7 @@
+     else
+ 
+ cat >>confdefs.h <<_ACEOF
+-#define AVFORMAT_INCLUDE <ffmpeg/avformat.h>
++#define AVFORMAT_INCLUDE <libavformat/avformat.h>
+ _ACEOF
+ 
+     fi
+@@ -33541,7 +33541,7 @@
+ fi
+ 
+     else
+-        unset ac_cv_lib_avformat_av_register_all
++        ac_cv_lib_avformat_av_register_all=yes
+         { $as_echo "$as_me:$LINENO: checking for av_register_all in -lavformat" >&5
+ $as_echo_n "checking for av_register_all in -lavformat... " >&6; }
+ if test "${ac_cv_lib_avformat_av_register_all+set}" = set; then
+@@ -33710,7 +33710,10 @@
+     CPPFLAGS=$CPPFLAGS_SAVE
+ 
+ 
+-    AVFORMAT_LIBS=${mt_avformat_libs}
++    AVFORMAT_LIBS="-lavformat -lavcodec -lavdevice"
++    if test "x$mt_mysql_package_status" = xyes; then
++		AVFORMAT_LIBS="$AVFORMAT_LIBS -lstdc++"
++	fi
+     AVFORMAT_LDFLAGS=${mt_avformat_ldflags}
+     AVFORMAT_STATUS=${mt_avformat_library_status}
+ 

@@ -1,0 +1,64 @@
+--- a/lib/mcconfig/paths.c.orig	2013-04-04 13:33:57.000000000 +0400
++++ b/lib/mcconfig/paths.c	2013-04-04 13:42:41.000000000 +0400
+@@ -297,52 +297,17 @@
+     (void) mc_config_get_home_dir ();
+ 
+ #ifdef MC_HOMEDIR_XDG
+-    if (mc_home != NULL)
+-    {
+-        dir = g_build_filename (mc_home, ".config", (char *) NULL);
+-        mc_config_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-        g_free (dir);
+-
+-        dir = g_build_filename (mc_home, ".cache", (char *) NULL);
+-        mc_cache_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-        g_free (dir);
+-
+-        dir = g_build_filename (mc_home, ".local", "share", (char *) NULL);
+-        mc_data_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-        g_free (dir);
+-    }
+-    else
+-    {
+-        dir = (char *) g_get_user_config_dir ();
+-        if (dir != NULL && *dir != '\0')
+-            mc_config_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-        else
+-        {
+-            dir = g_build_filename (homedir, ".config", (char *) NULL);
+-            mc_config_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-            g_free (dir);
+-        }
++    dir = g_build_filename (mc_config_get_home_dir (), ".config", (char *) NULL);
++    mc_config_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
++    g_free (dir);
+ 
+-        dir = (char *) g_get_user_cache_dir ();
+-        if (dir != NULL && *dir != '\0')
+-            mc_cache_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-        else
+-        {
+-            dir = g_build_filename (homedir, ".cache", (char *) NULL);
+-            mc_cache_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-            g_free (dir);
+-        }
++    dir = g_build_filename (mc_config_get_home_dir (), ".cache", (char *) NULL);
++    mc_cache_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
++    g_free (dir);
+ 
+-        dir = (char *) g_get_user_data_dir ();
+-        if (dir != NULL && *dir != '\0')
+-            mc_data_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-        else
+-        {
+-            dir = g_build_filename (homedir, ".local", "share", (char *) NULL);
+-            mc_data_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
+-            g_free (dir);
+-        }
+-    }
++    dir = g_build_filename (mc_config_get_home_dir (), ".local", "share", (char *) NULL);
++    mc_data_str = mc_config_init_one_config_path (dir, MC_USERCONF_DIR, error);
++    g_free (dir);
+ 
+     mc_config_fix_migrated_rules ();
+ #else /* MC_HOMEDIR_XDG */
